@@ -7,6 +7,8 @@ public class DateiModell extends AbstractListModel<Datei> {
 
     private LinkedList<Datei> dateien = new LinkedList<>();
 
+    private FileComparer fc = new FileComparer();
+
     @Override
     public int getSize() {
         return dateien.size();
@@ -20,13 +22,14 @@ public class DateiModell extends AbstractListModel<Datei> {
     public void displayFolder(File f) {
         dateien.clear();
         File[] filelist = f.listFiles();
-       
-        dateien.add(new Datei(f.getAbsoluteFile().getParent(), ".."));
-        if(filelist != null){
+
+        if (filelist != null) {
             for (File file : filelist) {
                 dateien.add(new Datei(file.getAbsolutePath(), file.getName()));
             }
-            fireIntervalAdded(this, 0, dateien.size()-1);
+            dateien.sort(fc);
+            dateien.add(0, new Datei(f.getAbsoluteFile().getParent(), ".."));
+            fireIntervalAdded(this, 0, dateien.size() - 1);
         }
     }
 

@@ -11,6 +11,7 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         initComponents();
         
         list.setModel(dm);
+        list.setCellRenderer(new FileListRenderer());
         dm.displayFolder(new File("."));
     }
 
